@@ -13,6 +13,7 @@ var typeis =       require('blear.utils.typeis');
 var fun =          require('blear.utils.function');
 var selector =     require('blear.core.selector');
 var attribute =    require('blear.core.attribute');
+var modification = require('blear.core.modification');
 var event =        require('blear.core.event');
 var Window =       require('blear.ui.window');
 var UI =           require('blear.ui');
