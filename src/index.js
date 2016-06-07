@@ -48,6 +48,26 @@ var Mask = Window.extend({
     },
 
     /**
+     * 设置 HTML
+     * @param html {String|Node}
+     * @returns {HTMLElement}
+     */
+    setHTML: function (html) {
+        var the = this;
+
+        if (typeis.String(html)) {
+            attribute.html(the[_maskEl], html);
+        } else if (html && html.nodeType) {
+            modification.empty(the[_maskEl]);
+            modification.insert(html, the[_maskEl]);
+        }
+
+        Mask.parent.update(the);
+
+        return selector.children(the[_maskEl])[0];
+    },
+
+    /**
      * 销毁实例
      */
     destroy: function (callback) {
