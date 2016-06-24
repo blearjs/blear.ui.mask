@@ -32,7 +32,7 @@ var defaults = {
     resizeAnimation: null,
     closeAnimation: null,
     animation: function (to, done) {
-        attribute.style(this.getElement(), to);
+        attribute.style(this.getWindowEl(), to);
         done();
     }
 };
@@ -76,7 +76,7 @@ var Mask = Window.extend({
 
         callback = fun.noop(callback);
         callback = fun.bind(callback, the);
-        event.un(the.getElement(), 'click');
+        event.un(the.getWindowEl(), 'click');
         Mask.parent.destroy(the, callback);
     }
 });
@@ -118,7 +118,7 @@ Mask.method(_initEvent, function () {
         pos.width = '100%';
         pos.height = '100%';
     });
-    event.on(the.getElement(), 'click', function () {
+    event.on(the.getWindowEl(), 'click', function () {
         the.emit('hit');
     });
 });
