@@ -115,8 +115,6 @@ Mask.method(_initEvent, function () {
         pos.right = 0;
         pos.bottom = 0;
         pos.left = 0;
-        pos.width = '100%';
-        pos.height = '100%';
     });
     event.on(the.getWindowEl(), 'click', function () {
         the.emit('hit');
