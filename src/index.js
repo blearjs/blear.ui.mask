@@ -7,17 +7,17 @@
 
 
 'use strict';
- 
-var object =       require('blear.utils.object');
-var typeis =       require('blear.utils.typeis');
-var fun =          require('blear.utils.function');
-var selector =     require('blear.core.selector');
-var attribute =    require('blear.core.attribute');
+
+var object = require('blear.utils.object');
+var typeis = require('blear.utils.typeis');
+var fun = require('blear.utils.function');
+var selector = require('blear.core.selector');
+var attribute = require('blear.core.attribute');
 var modification = require('blear.core.modification');
-var event =        require('blear.core.event');
-var Window =       require('blear.ui.window');
-var UI =           require('blear.ui');
-var template =     require('./template.html', 'html');
+var event = require('blear.core.event');
+var Window = require('blear.ui.window');
+var UI = require('blear.ui');
+var template = require('./template.html', 'html');
 
 
 var uiIndex = 0;
@@ -27,6 +27,10 @@ var doc = win.document;
 var defaults = {
     bgColor: 'black',
     opacity: 0.5,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
     addClass: '',
     openAnimation: null,
     resizeAnimation: null,
@@ -80,6 +84,7 @@ var Mask = Window.extend({
         Mask.parent.destroy(the, callback);
     }
 });
+var pro = Mask.prototype;
 var _maskEl = Mask.sole();
 var _options = Mask.sole();
 var _initNode = Mask.sole();
@@ -89,7 +94,7 @@ var _initEvent = Mask.sole();
 /**
  * 初始化节点
  */
-Mask.method(_initNode, function () {
+pro[_initNode] = function () {
     var the = this;
     var options = the[_options];
 
@@ -99,27 +104,29 @@ Mask.method(_initNode, function () {
         backgroundColor: options.bgColor,
         opacity: options.opacity
     });
-});
+};
 
 
 /**
  * 初始化事件
  */
-Mask.method(_initEvent, function () {
+pro[_initEvent] = function () {
     var the = this;
     var options = the[_options];
 
     // init event
     the.on('beforeOpen', function (pos) {
-        pos.top = 0;
-        pos.right = 0;
-        pos.bottom = 0;
-        pos.left = 0;
+        pos.top = options.top;
+        pos.right = options.right;
+        pos.bottom = options.bottom;
+        pos.left = options.left;
+        pos.width = 'auto';
+        pos.height = 'auto';
     });
     event.on(the.getWindowEl(), 'click', function () {
         the.emit('hit');
     });
-});
+};
 
 
 require('./style.css', 'css|style');
