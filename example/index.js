@@ -17,13 +17,17 @@ var win = new Window({
 
 win.setHTML(document.getElementById('window'));
 
-document.getElementById('open').onclick = function () {
-    mask.open();
-    win.open();
-};
+win.on('beforeOpen', function (pos) {
+    pos.top = 'auto';
+    pos.bottom = 0;
+});
 
 mask.on('hit', function () {
     mask.close();
     win.close();
 });
 
+document.getElementById('open').onclick = function () {
+    mask.open();
+    win.open();
+};
