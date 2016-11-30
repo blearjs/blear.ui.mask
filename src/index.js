@@ -91,7 +91,7 @@ pro[_initNode] = function () {
     var options = the[_options];
 
     // init node
-    the[_maskEl] = Mask.parent.setHTML(the, template);
+    the[_maskEl] = Mask.invoke('setHTML', the, template);
     the[_maskId] = UIIndex++;
     // maskMap[the[_maskId]] = the;
     attribute.style(the[_maskEl], {
