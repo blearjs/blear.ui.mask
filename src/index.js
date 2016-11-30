@@ -60,25 +60,6 @@ var Mask = Window.extend({
         the[_initEvent]();
     },
 
-    // /**
-    //  * 设置 HTML
-    //  * @param html {String|Node}
-    //  * @returns {HTMLElement}
-    //  */
-    // setHTML: function (html) {
-    //     var the = this;
-    //
-    //     if (typeis.String(html)) {
-    //         attribute.html(the[_maskEl], html);
-    //     } else if (html && html.nodeType) {
-    //         modification.empty(the[_maskEl]);
-    //         modification.insert(html, the[_maskEl]);
-    //     }
-    //
-    //     Mask.parent.update(the);
-    //
-    //     return selector.children(the[_maskEl])[0];
-    // },
 
     /**
      * 销毁实例
@@ -89,7 +70,7 @@ var Mask = Window.extend({
         callback = fun.noop(callback);
         callback = fun.bind(callback, the);
         event.un(the.getWindowEl(), 'click');
-        Mask.parent.destroy(the, callback);
+        Mask.invoke('destroy', the, callback);
     }
 });
 var pro = Mask.prototype;
