@@ -2,6 +2,7 @@
  * 遮罩层
  * @author ydr.me
  * @create 2016-04-20 16:56
+ * @ref https://uedsky.com/2016-06/mobile-modal-scroll/#解决方案-position-fixed
  */
 
 
@@ -29,16 +30,17 @@ var htmlEl = doc.documentElement;
 var bodyEl = doc.body;
 var windowMaskList = [];
 var windowMaskLength = 0;
-var htmlElLatestMarginTop = 0;
+var bodyElLatestTop = 0;
 var windowLatestScrollTop = 0;
 var maskMap = {};
+var namespace = 'blearui-mask';
 var defaults = {
     bgColor: 'black',
     opacity: 0.5,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
+    topRate: 0,
+    leftRate: 0,
+    width: '100%',
+    height: '100%',
     addClass: '',
     openAnimation: null,
     resizeAnimation: null,
@@ -55,8 +57,8 @@ var Mask = Window.extend({
         var the = this;
 
         options = the[_options] = object.assign(true, {}, defaults, options);
+        options.addClass += ' ' + namespace;
         Mask.parent(the, options);
-        the[_initNode]();
         the[_initEvent]();
     },
 
@@ -110,12 +112,8 @@ pro[_initEvent] = function () {
 
     // init event
     the.on('beforeOpen', function (pos) {
-        pos.top = options.top;
-        pos.right = options.right;
-        pos.bottom = options.bottom;
-        pos.left = options.left;
-        pos.width = 'auto';
-        pos.height = 'auto';
+        pos.backgroundColor = options.bgColor;
+        pos.opacity = options.opacity;
         the[_freezeBackground]();
     });
 
@@ -131,16 +129,18 @@ pro[_initEvent] = function () {
 
 // 冻结背景
 pro[_freezeBackground] = function () {
+    var the = this;
+
     if (!windowMaskLength) {
-        htmlElLatestMarginTop = attribute.style(htmlEl, 'marginTop');
+        bodyElLatestTop = attribute.style(bodyEl, 'top');
         windowLatestScrollTop = layout.scrollTop(win);
-        attribute.style(htmlEl, {
-            marginTop: -windowLatestScrollTop
+        attribute.style(bodyEl, {
+            top: -windowLatestScrollTop
         });
-        attribute.addClass(htmlEl, freezeClassName);
+        attribute.addClass(bodyEl, freezeClassName);
     }
 
-    // windowMaskList.push(the[_maskId]);
+    windowMaskList.push(the[_maskId]);
     windowMaskLength++;
 };
 
@@ -150,15 +150,14 @@ pro[_unfreezeBackground] = function () {
     windowMaskLength--;
 
     if (!windowMaskLength) {
-        attribute.removeClass(htmlEl, freezeClassName);
-        attribute.style(htmlEl, {
-            marginTop: htmlElLatestMarginTop
+        attribute.removeClass(bodyEl, freezeClassName);
+        attribute.style(bodyEl, {
+            top: bodyElLatestTop
         });
         layout.scrollTop(win, windowLatestScrollTop);
     }
-    // windowMaskList.pop();
+    windowMaskList.pop();
 };
-
 
 require('./style.css', 'css|style');
 Mask.defaults = defaults;

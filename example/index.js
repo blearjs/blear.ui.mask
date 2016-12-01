@@ -19,7 +19,7 @@ win.setHTML(document.getElementById('window'));
 
 win.on('beforeOpen', function (pos) {
     pos.top = 'auto';
-    pos.bottom = 0;
+    pos.bottom = 50;
 });
 
 mask.on('hit', function () {
