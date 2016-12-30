@@ -18,6 +18,8 @@ var layout = require('blear.core.layout');
 var event = require('blear.core.event');
 var Window = require('blear.ui.window');
 var UI = require('blear.ui');
+var Animation = require('blear.classes.animation');
+
 var template = require('./template.html', 'html');
 
 
@@ -42,12 +44,28 @@ var defaults = {
     width: '100%',
     height: '100%',
     addClass: '',
-    openAnimation: null,
-    resizeAnimation: null,
-    closeAnimation: null,
-    animation: function (to, done) {
-        attribute.style(this.getWindowEl(), to);
+    openAnimation: function (to, done) {
+        var el = this.getWindowEl();
+        var an = new Animation(el);
+
+        attribute.style(el, {
+            opacity: 0
+        });
+        an.transit(to);
+        an.start(done);
+        an.destroy();
+
         done();
+    },
+    closeAnimation: function (to, done) {
+        var el = this.getWindowEl();
+        var an = new Animation(el);
+
+        an.transit({
+            opacity: 0
+        });
+        an.start(done);
+        an.destroy();
     }
 };
 
@@ -95,11 +113,6 @@ pro[_initNode] = function () {
     // init node
     the[_maskEl] = Mask.invoke('setHTML', the, template);
     the[_maskId] = UIIndex++;
-    // maskMap[the[_maskId]] = the;
-    attribute.style(the[_maskEl], {
-        backgroundColor: options.bgColor,
-        opacity: options.opacity
-    });
 };
 
 
