@@ -30,11 +30,9 @@ var win = window;
 var doc = win.document;
 var htmlEl = doc.documentElement;
 var bodyEl = doc.body;
-var windowMaskList = [];
 var windowMaskLength = 0;
 var bodyElLatestTop = 0;
 var windowLatestScrollTop = 0;
-var maskMap = {};
 var namespace = 'blearui-mask';
 var defaults = {
     bgColor: 'black',
@@ -108,7 +106,6 @@ var _unfreezeBackground = Mask.sole();
  */
 pro[_initNode] = function () {
     var the = this;
-    var options = the[_options];
 
     // init node
     the[_maskEl] = Mask.invoke('setHTML', the, template);
@@ -142,8 +139,6 @@ pro[_initEvent] = function () {
 
 // 冻结背景
 pro[_freezeBackground] = function () {
-    var the = this;
-
     if (!windowMaskLength) {
         bodyElLatestTop = attribute.style(bodyEl, 'top');
         windowLatestScrollTop = layout.scrollTop(win);
@@ -153,7 +148,6 @@ pro[_freezeBackground] = function () {
         attribute.addClass(bodyEl, freezeClassName);
     }
 
-    windowMaskList.push(the[_maskId]);
     windowMaskLength++;
 };
 
@@ -169,7 +163,6 @@ pro[_unfreezeBackground] = function () {
         });
         layout.scrollTop(win, windowLatestScrollTop);
     }
-    windowMaskList.pop();
 };
 
 require('./style.css', 'css|style');
