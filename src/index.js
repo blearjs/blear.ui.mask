@@ -39,6 +39,10 @@ var defaults = {
     opacity: 0.5,
     topRate: 0,
     leftRate: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
     width: '100%',
     height: '100%',
     addClass: '',
@@ -124,6 +128,8 @@ pro[_initEvent] = function () {
     the.on('beforeOpen', function (pos) {
         pos.backgroundColor = options.bgColor;
         pos.opacity = options.opacity;
+        pos.right = pos.bottom = 0;
+        pos.width = pos.height = 'auto';
         the[_freezeBackground]();
     });
 
