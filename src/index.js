@@ -34,7 +34,7 @@ var windowMaskLength = 0;
 var bodyElLatestTop = 0;
 var windowLatestScrollTop = 0;
 var namespace = 'blearui-mask';
-var defaults = {
+var defaults = object.assign(true, {}, Window.defaults, {
     bgColor: 'black',
     opacity: 0.5,
     topRate: 0,
@@ -45,31 +45,34 @@ var defaults = {
     left: 0,
     width: '100%',
     height: '100%',
-    addClass: '',
     openAnimation: function (to, done) {
-        var el = this.getWindowEl();
-        var an = new Animation(el);
+        var the = this;
+        var el = the.getWindowEl();
+        var an = new Animation(el, the.getOptions('animationOptions'));
 
         attribute.style(el, {
             opacity: 0
         });
         an.transit(to);
-        an.start(done);
-        an.destroy();
-
-        done();
+        an.start(function () {
+            an.destroy();
+            done();
+        });
     },
     closeAnimation: function (to, done) {
-        var el = this.getWindowEl();
-        var an = new Animation(el);
+        var the = this;
+        var el = the.getWindowEl();
+        var an = new Animation(el, the.getOptions('animationOptions'));
 
         an.transit({
             opacity: 0
         });
-        an.start(done);
-        an.destroy();
+        an.start(function () {
+            an.destroy();
+            done();
+        });
     }
-};
+});
 
 var Mask = Window.extend({
     className: 'Mask',
@@ -82,6 +85,24 @@ var Mask = Window.extend({
         the[_initEvent]();
     },
 
+    /**
+     * 获取配置
+     * @param key
+     * @returns {*}
+     */
+    getOptions: function (key) {
+        return UI.getOptions(this, _options, key);
+    },
+
+    /**
+     * 获取配置
+     * @param key
+     * @param val
+     * @returns {*}
+     */
+    setOptions: function (key, val) {
+        return UI.setOptions(this, _options, key, val);
+    },
 
     /**
      * 销毁实例
