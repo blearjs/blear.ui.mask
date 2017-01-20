@@ -110,7 +110,7 @@ var Mask = Window.extend({
     destroy: function (callback) {
         var the = this;
 
-        callback = fun.noop(callback);
+        callback = fun.ensure(callback);
         callback = fun.bind(callback, the);
         event.un(the.getWindowEl(), 'click');
         Mask.invoke('destroy', the, callback);
