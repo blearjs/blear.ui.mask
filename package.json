@@ -1,6 +1,6 @@
 {
   "name": "blear.ui.mask",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "遮罩层 UI",
   "scripts": {
     "live": "browser-sync start --config bs-config.js"

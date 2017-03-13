@@ -117,13 +117,14 @@ var Mask = Window.extend({
     }
 });
 var pro = Mask.prototype;
-var _maskEl = Mask.sole();
-var _maskId = Mask.sole();
-var _options = Mask.sole();
-var _initNode = Mask.sole();
-var _initEvent = Mask.sole();
-var _freezeBackground = Mask.sole();
-var _unfreezeBackground = Mask.sole();
+var sole = Mask.sole;
+var _maskEl = sole();
+var _maskId = sole();
+var _options = sole();
+var _initNode = sole();
+var _initEvent = sole();
+var _freezeBackground = sole();
+var _unfreezeBackground = sole();
 
 
 /**

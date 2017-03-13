@@ -5,3 +5,6 @@
   top: 0;
   right: 0;
   left: 0; }
+
+.blearui-mask .blearui-window-container {
+  height: 100%; }
