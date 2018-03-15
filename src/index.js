@@ -10,10 +10,9 @@
 'use strict';
 
 var object = require('blear.utils.object');
-var typeis = require('blear.utils.typeis');
 var fun = require('blear.utils.function');
-var selector = require('blear.core.selector');
 var attribute = require('blear.core.attribute');
+var modification = require('blear.core.modification');
 var layout = require('blear.core.layout');
 var event = require('blear.core.event');
 var Window = require('blear.ui.window');
@@ -32,7 +31,9 @@ var htmlEl = doc.documentElement;
 var bodyEl = doc.body;
 var windowMaskLength = 0;
 var bodyElLatestTop = 0;
+var bodyElLatestRight = 0;
 var windowLatestScrollTop = 0;
+var scrollBarWidth = calScrollBarWidth();
 var namespace = 'blearui-mask';
 var defaults = object.assign(true, {}, Window.defaults, {
     bgColor: 'black',
@@ -169,9 +170,11 @@ pro[_initEvent] = function () {
 pro[_freezeBackground] = function () {
     if (!windowMaskLength) {
         bodyElLatestTop = attribute.style(bodyEl, 'top');
+        bodyElLatestRight = attribute.style(bodyEl, 'right');
         windowLatestScrollTop = layout.scrollTop(win);
         attribute.style(bodyEl, {
-            top: -windowLatestScrollTop
+            top: -windowLatestScrollTop,
+            right: scrollBarWidth
         });
         attribute.addClass(bodyEl, freezeClassName);
     }
@@ -187,7 +190,8 @@ pro[_unfreezeBackground] = function () {
     if (!windowMaskLength) {
         attribute.removeClass(bodyEl, freezeClassName);
         attribute.style(bodyEl, {
-            top: bodyElLatestTop
+            top: bodyElLatestTop,
+            right: bodyElLatestRight
         });
         layout.scrollTop(win, windowLatestScrollTop);
     }
@@ -196,3 +200,27 @@ pro[_unfreezeBackground] = function () {
 require('./style.css', 'css|style');
 Mask.defaults = defaults;
 module.exports = Mask;
+
+// ====================================
+function calScrollBarWidth() {
+    var div1El = modification.create('div', {
+        style: {
+            width: 100,
+            height: 100,
+            overflow: 'auto'
+        }
+    });
+    var div2El = modification.create('div', {
+        style: {
+            width: 200,
+            height: 200
+        }
+    });
+
+    modification.insert(div2El, div1El);
+    modification.insert(div1El);
+    var width = div1El.offsetWidth - div1El.clientWidth;
+    modification.remove(div1El);
+    div1El = div2El = null;
+    return width;
+}
