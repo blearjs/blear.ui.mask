@@ -153,12 +153,12 @@ pro[_initEvent] = function () {
         pos.opacity = options.opacity;
         pos.right = pos.bottom = 0;
         pos.width = pos.height = 'auto';
-        the[_freezeBackground]();
+        // the[_freezeBackground]();
     });
 
-    the.on('afterClose', function () {
-        the[_unfreezeBackground]();
-    });
+    // the.on('afterClose', function () {
+    //     // the[_unfreezeBackground]();
+    // });
 
     event.on(the.getWindowEl(), 'click', function (ev) {
         the.emit('hit', ev);
@@ -166,36 +166,36 @@ pro[_initEvent] = function () {
 };
 
 
-// 冻结背景
-pro[_freezeBackground] = function () {
-    if (!windowMaskLength) {
-        bodyElLatestTop = attribute.style(bodyEl, 'top');
-        bodyElLatestRight = attribute.style(bodyEl, 'right');
-        windowLatestScrollTop = layout.scrollTop(win);
-        attribute.style(bodyEl, {
-            top: -windowLatestScrollTop,
-            right: scrollBarWidth
-        });
-        attribute.addClass(bodyEl, freezeClassName);
-    }
-
-    windowMaskLength++;
-};
-
-
-// 解冻背景
-pro[_unfreezeBackground] = function () {
-    windowMaskLength--;
-
-    if (!windowMaskLength) {
-        attribute.removeClass(bodyEl, freezeClassName);
-        attribute.style(bodyEl, {
-            top: bodyElLatestTop,
-            right: bodyElLatestRight
-        });
-        layout.scrollTop(win, windowLatestScrollTop);
-    }
-};
+// // 冻结背景
+// pro[_freezeBackground] = function () {
+//     if (!windowMaskLength) {
+//         bodyElLatestTop = attribute.style(bodyEl, 'top');
+//         bodyElLatestRight = attribute.style(bodyEl, 'right');
+//         windowLatestScrollTop = layout.scrollTop(win);
+//         attribute.style(bodyEl, {
+//             top: -windowLatestScrollTop,
+//             right: scrollBarWidth
+//         });
+//         attribute.addClass(bodyEl, freezeClassName);
+//     }
+//
+//     windowMaskLength++;
+// };
+//
+//
+// // 解冻背景
+// pro[_unfreezeBackground] = function () {
+//     windowMaskLength--;
+//
+//     if (!windowMaskLength) {
+//         attribute.removeClass(bodyEl, freezeClassName);
+//         attribute.style(bodyEl, {
+//             top: bodyElLatestTop,
+//             right: bodyElLatestRight
+//         });
+//         layout.scrollTop(win, windowLatestScrollTop);
+//     }
+// };
 
 require('./style.css', 'css|style');
 Mask.defaults = defaults;
