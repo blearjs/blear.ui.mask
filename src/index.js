@@ -160,8 +160,8 @@ pro[_initEvent] = function () {
         the[_unfreezeBackground]();
     });
 
-    event.on(the.getWindowEl(), 'click', function () {
-        the.emit('hit');
+    event.on(the.getWindowEl(), 'click', function (ev) {
+        the.emit('hit', ev);
     });
 };
 
